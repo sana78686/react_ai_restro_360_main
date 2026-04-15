@@ -91,6 +91,11 @@ export default {
       'Hubungkan POS, pengiriman, dan loyalitas di satu tempat — untuk tim restoran yang sibuk.',
     announce3:
       'Lihat harga dan opsi onboarding — hubungi kami untuk menerapkan AI Restro 360 di outlet Anda.',
+    venueLabel: 'Venue',
+    venuePrevAria: 'Lokasi sebelumnya',
+    venueNextAria: 'Lokasi berikutnya',
+    mobileMenuOpen: 'Buka menu',
+    mobileMenuClose: 'Tutup menu',
   },
   title: 'Compress PDF files',
   subtitle: 'Kurangi ukuran file sambil menjaga kualitas PDF sebaik mungkin.',

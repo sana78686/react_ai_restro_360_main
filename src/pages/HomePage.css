@@ -86,7 +86,7 @@
 }
 
 .logo img {
-  height: 3.75rem;
+  /* height: 3.75rem; */
   width: auto;
   max-width: 180px;
   display: block;
@@ -422,7 +422,7 @@
 .main.cms-main {
   text-align: left;
   max-width: var(--content-max-width);
-  padding: 2rem var(--content-padding-x) 3rem;
+  /* padding: 2rem var(--content-padding-x) 3rem; */
 }
 
 /* Landing: same horizontal bounds as header, content starts after header */
@@ -1657,7 +1657,7 @@
   }
 
   .logo img {
-    height: 2.5rem;
+    /* height: 2.5rem; */
     max-width: 160px;
   }
 
@@ -1734,7 +1734,7 @@
   }
 
   .logo img {
-    height: 2.25rem;
+    /* height: 2.25rem; */
     max-width: 140px;
   }
 

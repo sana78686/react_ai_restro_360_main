@@ -95,6 +95,11 @@ export const translations = {
         'Connect POS, delivery, and loyalty in one place — built for busy restaurant teams.',
       announce3:
         'See pricing and onboarding options — talk to us about rolling out AI Restro 360 in your venues.',
+      venueLabel: 'Venue',
+      venuePrevAria: 'Previous location',
+      venueNextAria: 'Next location',
+      mobileMenuOpen: 'Open menu',
+      mobileMenuClose: 'Close menu',
     },
     title: 'Compress PDF files',
     subtitle: 'Reduce file size while optimizing for maximal PDF quality.',

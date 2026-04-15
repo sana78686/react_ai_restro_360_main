@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react'
 
-export default function DxAnnouncementBar({ t, lang }) {
+export default function DxAnnouncementBar({ t, lang, className }) {
   const items = [t('dxHeader.announce1'), t('dxHeader.announce2'), t('dxHeader.announce3')].filter(Boolean)
   const [index, setIndex] = useState(0)
   const n = items.length || 1
@@ -19,7 +19,11 @@ export default function DxAnnouncementBar({ t, lang }) {
   if (items.length === 0) return null
 
   return (
-    <div className="dx-announcement-bar" role="region" aria-label={t('dxHeader.announceAria')}>
+    <div
+      className={['dx-announcement-bar', className].filter(Boolean).join(' ')}
+      role="region"
+      aria-label={t('dxHeader.announceAria')}
+    >
       <button
         type="button"
         className="dx-announcement-nav"

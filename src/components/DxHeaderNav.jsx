@@ -33,6 +33,22 @@ function GlobeIcon() {
   )
 }
 
+function IconHamburger() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+      <path d="M4 7h16M4 12h16M4 17h16" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+function IconClose() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+      <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
+    </svg>
+  )
+}
+
 function DxIntIcon({ name }) {
   const s = String(name || 'default')
   const common = { width: 20, height: 20, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.75 }
@@ -116,12 +132,15 @@ export default function DxHeaderNav({
   lang,
   lp,
   pathname,
+  showAnnouncement = false,
 }) {
   const [openKey, setOpenKey] = useState(null)
   const [langOpen, setLangOpen] = useState(false)
   const closeTimer = useRef(null)
   const zoneRef = useRef(null)
   const langRef = useRef(null)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [mobileSub, setMobileSub] = useState(null)
 
   const clearOpenTimer = () => {
     if (closeTimer.current) {
@@ -152,13 +171,38 @@ export default function DxHeaderNav({
 
   useEffect(() => {
     setOpenKey(null)
+    setMobileMenuOpen(false)
+    setMobileSub(null)
   }, [pathname])
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return undefined
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = prev
+    }
+  }, [mobileMenuOpen])
+
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 901px)')
+    const onMq = () => {
+      if (mq.matches) {
+        setMobileMenuOpen(false)
+        setMobileSub(null)
+      }
+    }
+    mq.addEventListener('change', onMq)
+    return () => mq.removeEventListener('change', onMq)
+  }, [])
 
   useEffect(() => {
     function onKey(e) {
       if (e.key === 'Escape') {
         setOpenKey(null)
         setLangOpen(false)
+        setMobileMenuOpen(false)
+        setMobileSub(null)
       }
     }
     document.addEventListener('keydown', onKey)
@@ -313,12 +357,25 @@ export default function DxHeaderNav({
       <MegaResources />
     ) : null
 
+  const marqueeItems = [t('dxHeader.announce1'), t('dxHeader.announce2'), t('dxHeader.announce3')].filter(Boolean)
+  const marqueeText = marqueeItems.join('   ·   ')
+
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false)
+    setMobileSub(null)
+  }
+
+  const toggleMobileSub = (key) => {
+    setMobileSub((cur) => (cur === key ? null : key))
+  }
+
   return (
     <div
       className="dx-header-zone"
       ref={zoneRef}
       onMouseLeave={scheduleClose}
     >
+      <div className="dx-header-desktop">
       <div className="dx-header-pill">
         <BrandLogo href={`${lp}/`} ariaLabel={t('nav.home')} text={SITE_NAME} />
         <nav className="dx-header-pill-nav" aria-label="Primary">
@@ -389,6 +446,262 @@ export default function DxHeaderNav({
           {megaContent}
         </div>
       )}
+      </div>
+
+      <div className="dx-header-mobile">
+        {!mobileMenuOpen && (
+          <>
+            <div className="dx-mobile-unified-topbar">
+              <div className="dx-mobile-unified-start">
+                <div className="dx-venue-switcher">
+                  <button type="button" className="dx-venue-nav" aria-label={t('dxHeader.venuePrevAria')}>
+                    ‹
+                  </button>
+                  <span className="dx-venue-name">{t('dxHeader.venueLabel')}</span>
+                  <button type="button" className="dx-venue-nav" aria-label={t('dxHeader.venueNextAria')}>
+                    ›
+                  </button>
+                </div>
+              </div>
+              {showAnnouncement && marqueeText ? (
+                <div className="dx-mobile-marquee">
+                  <p className="sr-only">{marqueeText}</p>
+                  <div className="dx-marquee-viewport">
+                    <div className="dx-marquee-track">
+                      <span className="dx-marquee-chunk">{marqueeText}</span>
+                      <span className="dx-marquee-chunk" aria-hidden>
+                        {marqueeText}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              ) : null}
+              <div className="dx-mobile-unified-end">
+                <div className="dx-locale-wrap" ref={langRef}>
+                  <button
+                    type="button"
+                    className={`dx-locale-pill dx-locale-pill--topbar ${langOpen ? 'dx-locale-pill--open' : ''}`}
+                    aria-expanded={langOpen}
+                    aria-haspopup="listbox"
+                    aria-label={t('dxHeader.localeLabel')}
+                    onClick={() => setLangOpen((o) => !o)}
+                  >
+                    <GlobeIcon />
+                    <span className="dx-locale-code">{langShortLabel[lang] ?? lang?.toUpperCase() ?? 'EN'}</span>
+                  </button>
+                  {langOpen && (
+                    <ul className="dx-locale-menu" role="listbox">
+                      {supportedLangs.map((l) => (
+                        <li key={l} role="option" aria-selected={lang === l}>
+                          <a
+                            href={buildLangSwitchHref(pathname, lang, l)}
+                            className={`dx-locale-item ${lang === l ? 'dx-locale-item--active' : ''}`}
+                            onClick={() => {
+                              writeUserLocalePreference(l)
+                              setLangOpen(false)
+                            }}
+                          >
+                            <span className="dx-locale-item-flag" aria-hidden>
+                              <LangFlag lang={l} width={20} />
+                            </span>
+                            <span>{langOptions[l]?.label ?? l.toUpperCase()}</span>
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </div>
+            </div>
+            <div className="dx-mobile-mainbar">
+              <BrandLogo href={`${lp}/`} ariaLabel={t('nav.home')} text={SITE_NAME} />
+              <button
+                type="button"
+                className="dx-mobile-menu-btn"
+                aria-expanded={false}
+                aria-label={t('dxHeader.mobileMenuOpen')}
+                onClick={() => setMobileMenuOpen(true)}
+              >
+                <IconHamburger />
+              </button>
+            </div>
+          </>
+        )}
+
+        {mobileMenuOpen && (
+          <div className="dx-mobile-overlay" role="dialog" aria-modal="true" aria-label={t('nav.home')}>
+            <div
+              className="dx-mobile-overlay-backdrop"
+              role="presentation"
+              onClick={closeMobileMenu}
+            />
+            <div className="dx-mobile-overlay-panel">
+              <div className="dx-mobile-overlay-head">
+                <BrandLogo href={`${lp}/`} ariaLabel={t('nav.home')} text={SITE_NAME} />
+                <button
+                  type="button"
+                  className="dx-mobile-overlay-close"
+                  aria-label={t('dxHeader.mobileMenuClose')}
+                  onClick={closeMobileMenu}
+                >
+                  <IconClose />
+                </button>
+              </div>
+
+              <nav className="dx-mobile-nav" aria-label="Primary">
+                <div className="dx-mobile-nav-block">
+                  <button
+                    type="button"
+                    className={`dx-mobile-nav-trigger ${mobileSub === 'solutions' ? 'dx-mobile-nav-trigger--open' : ''}`}
+                    onClick={() => toggleMobileSub('solutions')}
+                  >
+                    <span>{t('dxHeader.solutions')}</span>
+                    <span className="dx-mobile-nav-chevron" aria-hidden>▾</span>
+                  </button>
+                  {mobileSub === 'solutions' && (
+                    <div className="dx-mobile-nav-groups">
+                      {DX_SOLUTIONS.map((col) => (
+                        <div key={col.columnKey} className="dx-mobile-nav-group">
+                          <p className="dx-mobile-nav-group-label">{t(col.columnKey)}</p>
+                          <ul className="dx-mobile-nav-sub-list">
+                            {col.items.map((item) => (
+                              <li key={item.slug}>
+                                <Link to={resolveHref(lp, item)} onClick={closeMobileMenu}>
+                                  {t(item.titleKey)}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                <div className="dx-mobile-nav-block">
+                  <button
+                    type="button"
+                    className={`dx-mobile-nav-trigger ${mobileSub === 'integrations' ? 'dx-mobile-nav-trigger--open' : ''}`}
+                    onClick={() => toggleMobileSub('integrations')}
+                  >
+                    <span>{t('dxHeader.integrations')}</span>
+                    <span className="dx-mobile-nav-chevron" aria-hidden>▾</span>
+                  </button>
+                  {mobileSub === 'integrations' && (
+                    <div className="dx-mobile-nav-groups">
+                      <div className="dx-mobile-nav-group">
+                        <Link
+                          to={`${lp}/tools`}
+                          className="dx-mobile-nav-card-cta"
+                          onClick={closeMobileMenu}
+                        >
+                          {t('dxHeader.intCardCta')}
+                        </Link>
+                      </div>
+                      <div className="dx-mobile-nav-group">
+                        <p className="dx-mobile-nav-group-label">{t('dxHeader.intOurTitle')}</p>
+                        <ul className="dx-mobile-nav-sub-list">
+                          {DX_INTEGRATIONS_OUR.map((row) => (
+                            <li key={row.titleKey}>
+                              <Link
+                                to={row.path ? `${lp}/${row.path}` : resolveHref(lp, row)}
+                                className="dx-mobile-nav-row-link"
+                                onClick={closeMobileMenu}
+                              >
+                                <span className="dx-mobile-nav-row-icon" aria-hidden>
+                                  <DxIntIcon name={row.icon} />
+                                </span>
+                                <span>{t(row.titleKey)}</span>
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div className="dx-mobile-nav-group">
+                        <p className="dx-mobile-nav-group-label">{t('dxHeader.intPartnersTitle')}</p>
+                        <ul className="dx-mobile-nav-sub-list">
+                          {DX_INTEGRATIONS_PARTNERS.map((row) => (
+                            <li key={row.titleKey}>
+                              <Link
+                                to={row.path ? `${lp}/${row.path}` : resolveHref(lp, row)}
+                                className="dx-mobile-nav-row-link"
+                                onClick={closeMobileMenu}
+                              >
+                                <span className="dx-mobile-nav-row-icon" aria-hidden>
+                                  {row.icon ? <DxIntIcon name={row.icon} /> : <span className="dx-mobile-nav-dot" />}
+                                </span>
+                                <span>{t(row.titleKey)}</span>
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <div className="dx-mobile-nav-block">
+                  <Link
+                    to={`${lp}/contact`}
+                    className="dx-mobile-nav-link-plain"
+                    onClick={closeMobileMenu}
+                  >
+                    {t('dxHeader.pricing')}
+                  </Link>
+                </div>
+
+                <div className="dx-mobile-nav-block">
+                  <button
+                    type="button"
+                    className={`dx-mobile-nav-trigger ${mobileSub === 'resources' ? 'dx-mobile-nav-trigger--open' : ''}`}
+                    onClick={() => toggleMobileSub('resources')}
+                  >
+                    <span>{t('dxHeader.resources')}</span>
+                    <span className="dx-mobile-nav-chevron" aria-hidden>▾</span>
+                  </button>
+                  {mobileSub === 'resources' && (
+                    <div className="dx-mobile-nav-groups">
+                      {DX_RESOURCES.map((col) => (
+                        <div key={col.columnKey} className="dx-mobile-nav-group">
+                          <p className="dx-mobile-nav-group-label">{t(col.columnKey)}</p>
+                          <ul className="dx-mobile-nav-sub-list">
+                            {col.items.map((item) => (
+                              <li key={item.titleKey}>
+                                <Link to={resolveHref(lp, item)} onClick={closeMobileMenu}>
+                                  {t(item.titleKey)}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </nav>
+
+              <div className="dx-mobile-overlay-actions">
+                <a
+                  className="dx-header-log-in dx-header-log-in--mobile"
+                  href={RESTRO_LOGIN_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {t('nav.logIn')}
+                </a>
+                <a
+                  className="dx-header-cta dx-header-cta--mobile"
+                  href={RESTRO_REGISTER_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {t('landing.dxGetStarted')}
+                </a>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   )
 }

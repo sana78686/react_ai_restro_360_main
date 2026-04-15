@@ -79,9 +79,17 @@ export default function SiteLayout({ children }) {
       <header
         className={`header header--dx dx-header-shell${headerScrolled ? ' dx-header-shell--scrolled' : ''}`}
       >
-        {scrollY < 1 ? <DxAnnouncementBar t={t} lang={lang} /> : null}
+        {scrollY < 1 ? (
+          <DxAnnouncementBar t={t} lang={lang} className="dx-announcement-bar--desktop-only" />
+        ) : null}
         <div className="dx-header-float-area">
-          <DxHeaderNav t={t} lang={lang} lp={lp} pathname={pathname} />
+          <DxHeaderNav
+            t={t}
+            lang={lang}
+            lp={lp}
+            pathname={pathname}
+            showAnnouncement={scrollY < 1}
+          />
         </div>
       </header>
 
