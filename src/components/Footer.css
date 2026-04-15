@@ -1,0 +1,290 @@
+/* Deliverect-style dark footer — scoped to beat HomePage.css */
+footer.footer.footer--dark {
+  position: relative;
+  background: #000 !important;
+  color: #fff;
+  margin-top: auto;
+  border-top: none;
+  padding: 3rem 1.5rem 2.5rem;
+  font-family: system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+footer.footer.footer--dark .footer-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 0 4rem;
+}
+
+footer.footer.footer--dark .footer-main-grid {
+  display: grid;
+  grid-template-columns: minmax(11rem, 1.15fr) repeat(4, minmax(0, 1fr));
+  gap: 2.5rem 2rem;
+  align-items: start;
+}
+
+footer.footer.footer--dark .footer-brand-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  min-width: 0;
+}
+
+footer.footer.footer--dark .footer-logo-link {
+  display: inline-block;
+  line-height: 0;
+  text-decoration: none;
+}
+
+footer.footer.footer--dark .footer-logo-img {
+  height: auto;
+  max-width: 200px;
+  width: 100%;
+  object-fit: contain;
+}
+
+footer.footer.footer--dark .footer-social--brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+footer.footer.footer--dark .footer-social-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  opacity: 0.92;
+  transition: opacity 0.2s;
+}
+
+footer.footer.footer--dark .footer-social-btn:hover {
+  opacity: 1;
+}
+
+footer.footer.footer--dark .footer-social-svg {
+  display: block;
+}
+
+footer.footer.footer--dark .footer-selectors {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  align-items: flex-start;
+}
+
+footer.footer.footer--dark .footer-pill-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 220px;
+}
+
+footer.footer.footer--dark .footer-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  justify-content: flex-start;
+  padding: 0.55rem 1rem;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 999px;
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+footer.footer.footer--dark .footer-pill-btn:hover {
+  border-color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+footer.footer.footer--dark .footer-pill-icon {
+  flex-shrink: 0;
+  opacity: 0.95;
+}
+
+footer.footer.footer--dark .footer-pill-chevron {
+  margin-left: auto;
+  font-size: 0.65rem;
+  opacity: 0.85;
+  line-height: 1;
+}
+
+footer.footer.footer--dark .footer-pill-menu {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 0.35rem 0;
+  list-style: none;
+  background: #1a1a1a;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+  z-index: 120;
+}
+
+footer.footer.footer--dark .footer-pill-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  color: #fff;
+  text-decoration: none;
+}
+
+footer.footer.footer--dark .footer-pill-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+footer.footer.footer--dark .footer-pill-item--static {
+  cursor: default;
+  opacity: 0.9;
+}
+
+footer.footer.footer--dark .footer-pill-item-flag {
+  display: inline-flex;
+  line-height: 0;
+  flex-shrink: 0;
+}
+
+footer.footer.footer--dark .footer-pill-item-flag .lang-flag-img {
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+footer.footer.footer--dark .footer-copy-block,
+footer.footer.footer--dark .footer-address {
+  margin: 0;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+footer.footer.footer--dark .footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  min-width: 0;
+}
+
+footer.footer.footer--dark .footer-col-title {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #fff;
+  margin: 0 0 0.35rem;
+}
+
+footer.footer.footer--dark .footer-col a {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.88);
+  text-decoration: none;
+  line-height: 1.35;
+}
+
+footer.footer.footer--dark .footer-col a:hover {
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+footer.footer.footer--dark .footer-legal-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0;
+  margin-top: 2.75rem;
+  padding-top: 0;
+}
+
+footer.footer.footer--dark .footer-legal-row a {
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: none;
+}
+
+footer.footer.footer--dark .footer-legal-row a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+footer.footer.footer--dark .footer-legal-row a:not(:last-child)::after {
+  content: '—';
+  display: inline-block;
+  margin: 0 0.65rem;
+  color: rgba(255, 255, 255, 0.35);
+  text-decoration: none;
+  pointer-events: none;
+}
+
+footer.footer.footer--dark .footer-chat-fab {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  z-index: 200;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #00e676;
+  color: #fff;
+  box-shadow: 0 4px 18px rgba(0, 230, 118, 0.45);
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+footer.footer.footer--dark .footer-chat-fab:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 22px rgba(0, 230, 118, 0.55);
+}
+
+footer.footer.footer--dark .footer-chat-icon {
+  width: 26px;
+  height: 26px;
+}
+
+@media (max-width: 1100px) {
+  footer.footer.footer--dark .footer-main-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  footer.footer.footer--dark .footer-brand-col {
+    grid-column: 1 / -1;
+    max-width: 28rem;
+  }
+}
+
+@media (max-width: 720px) {
+  footer.footer.footer--dark {
+    padding: 2.25rem 1.25rem 2rem;
+  }
+
+  footer.footer.footer--dark .footer-main-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  footer.footer.footer--dark .footer-brand-col {
+    grid-column: auto;
+  }
+
+  footer.footer.footer--dark .footer-inner {
+    padding-bottom: 5rem;
+  }
+
+  footer.footer.footer--dark .footer-chat-fab {
+    right: 1rem;
+    bottom: 1rem;
+    width: 52px;
+    height: 52px;
+  }
+}
